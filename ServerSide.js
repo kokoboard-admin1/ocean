@@ -180,7 +180,7 @@ function UserCreate(text) {
 
 //useridからuser名を取得
 function UserGet(userid) {
-  var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1N2QIzWtBtlO-hbwnuRdpkkL_KvtqB3wwRf2VeLvRiEE/edit")
+  var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1f_zwfy_balmTo5_E_UbNti832BsFnDqSQzX-9kZ1KUY/edit")
   var user_sh = ss.getSheetByName("Users")
   var users = user_sh.getRange(2,3,user_sh.getLastRow() - 1).getValues()
   var users = users.flat()
@@ -192,7 +192,7 @@ function UserGet(userid) {
 function RoomGet(userid){
   userid = userid.toString()
   var user_rooms = []
-  var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1N2QIzWtBtlO-hbwnuRdpkkL_KvtqB3wwRf2VeLvRiEE/edit").getSheetByName("Rooms")
+  var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1f_zwfy_balmTo5_E_UbNti832BsFnDqSQzX-9kZ1KUY/edit").getSheetByName("Rooms")
   var rooms = ss.getRange(2,1,ss.getLastRow() - 1,2).getValues()
   for (var value of rooms){
     var users = value[1].split(" ")
@@ -208,7 +208,7 @@ function RoomGet(userid){
 function Login(text) {
   var username = text["Username"]
   var userpass = text["Userpass"]
-  var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1N2QIzWtBtlO-hbwnuRdpkkL_KvtqB3wwRf2VeLvRiEE/edit").getSheetByName("Users")
+  var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1f_zwfy_balmTo5_E_UbNti832BsFnDqSQzX-9kZ1KUY/edit").getSheetByName("Users")
   var usernames = ss.getRange(2,1,ss.getLastRow() - 1,1).getValues()
   usernames = usernames.flat()
   var user_row = usernames.indexOf(username)
@@ -284,7 +284,7 @@ function Getlastmessage(user_rooms) {
 function OnlineOffline(text) {
   var userid = text["Userid"]
   if (userid){
-  var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1N2QIzWtBtlO-hbwnuRdpkkL_KvtqB3wwRf2VeLvRiEE/edit")
+  var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1f_zwfy_balmTo5_E_UbNti832BsFnDqSQzX-9kZ1KUY/edit")
   var user_sh = ss.getSheetByName("Users")
   var users = user_sh.getRange(2,3,user_sh.getLastRow() - 1).getValues()
   var users = users.flat()
