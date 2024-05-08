@@ -1,0 +1,94 @@
+<!-- 左の吹き出し -->
+<div class="balloon-color left">
+  <figure class="icon-color"><img src="画像のパス" alt="代替えテキスト" >
+    <figcaption class="name-color">アイコンの名前</figcaption>
+  </figure>
+  <div class="chatting-color">
+    <p class="text-color">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+  </div>
+</div>
+<!-- 右の吹き出し -->
+<div class="balloon-color right">
+  <figure class="icon-color"><img src="画像のパス" alt="代替えテキスト" >
+    <figcaption class="name-color">アイコンの名前</figcaption>
+  </figure>
+  <div class="chatting-color">
+    <p class="text-color">bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb</p>
+  </div>
+</div>
+
+ <style>
+.balloon-color {
+display: flex;
+flex-wrap: wrap;
+}
+/* 左の吹き出し */
+.balloon-color.left {
+flex-direction: row; /* 左から右に並べる */
+}
+.left .chatting-color {
+position: relative;
+display: inline-block; /* 吹き出しが文字幅に合わせます */
+margin: 15px 20px 20px;
+padding: 10px 20px;
+background: #696969; /*（◯）カラー変更はこちら*/
+text-align: left; /*テキスト左揃え*/
+border-radius: 15px; /*枠の丸みの設定はこちら*/
+height: fit-content;
+max-width: 25%;
+word-break: break-all;
+}
+.left .chatting-color::after {
+content: "";
+border: 15px solid transparent;
+border-top-color: #696969; /*（◯）とカラーを合わせる*/
+position: absolute;
+top: 15px; /*三角部分の高さ*/
+left: -15px; /*三角部分の位置*/
+}
+/* 右の吹き出し */ 
+.balloon-color.right {
+flex-direction: row-reverse; /* 右から左に並べる */ 
+}
+.right .chatting-color {
+position: relative;
+display: inline-block; /* 吹き出しが文字幅に合わせます */
+margin: 15px 20px 20px;
+padding: 10px 20px;
+background: #2f4f4f; /*（△）カラー変更はこちら*/
+text-align: left; /*テキストの位置変更はこちら*/
+border-radius: 15px; /*枠の丸みの設定はこちら*/
+height: fit-content;
+max-width: 25%;
+word-break: break-all;
+}
+.right .chatting-color::after {
+content: "";
+border: 15px solid transparent;
+border-top-color: #2f4f4f; /*（△）とカラーを合わせる*/
+position: absolute;
+top: 15px; /*三角部分の高さ*/
+right: -15px; /*三角部分の位置*/
+}
+/* アイコンの作成 */
+.balloon-color figure img {
+border-radius: 0; /* 画像を丸くしたいときに利用 */
+margin: 0;
+}
+/* アイコンの大きさ */
+.icon-color {
+width: 100px;
+height: 100px;
+}
+/* アイコンの名前 */
+.name-color {
+width: 100px; /* アイコンの大きさと合わせる */
+font-size: 12px;
+text-align: center; /* 名前は真ん中に */
+}
+.text-color {
+color: #fff; /* テキストのカラー変更はこちら*/
+font-size: 16px; /*テキストサイズの変更はこちら（なければデフォルトのサイズになります）*/
+margin: 0;
+}
+</style>

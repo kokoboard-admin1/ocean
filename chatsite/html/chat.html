@@ -1,0 +1,1362 @@
+
+<html lang = "ja">
+  <head>
+	 <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base target="_top">
+	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+	  <title>Ocean</title>
+<link rel="icon" href="../images/favicon.ico" sizes="any">
+	 <style>
+	 .balloon-color {
+		display: flex;
+		flex-wrap: wrap;
+		}
+		/* 左の吹き出し */
+		.balloon-color.left {
+		flex-direction: row; /* 左から右に並べる */
+		}
+		.left .chatting-color {
+		position: relative;
+		display: inline-block; /* 吹き出しが文字幅に合わせます */
+		margin: 15px 20px 0px;
+		padding: 10px 20px;
+		background: #696969; /*（◯）カラー変更はこちら*/
+		text-align: left; /*テキスト左揃え*/
+		border-radius: 15px; /*枠の丸みの設定はこちら*/
+		height: fit-content;
+		max-width: 50%;
+		word-break: break-all;
+		margin-right: 5px;
+		}
+		.left .chatting-color::after {
+		content: "";
+		border: 15px solid transparent;
+		border-top-color: #696969; /*（◯）とカラーを合わせる*/
+		position: absolute;
+		top: 15px; /*三角部分の高さ*/
+		left: -15px; /*三角部分の位置*/
+		}
+		/* 右の吹き出し */ 
+		.balloon-color.right {
+		flex-direction: row-reverse; /* 右から左に並べる */ 
+		}
+		.right .chatting-color {
+		position: relative;
+		display: inline-block; /* 吹き出しが文字幅に合わせます */
+		margin: 15px 20px 0px;
+		padding: 10px 20px;
+		background: #2f4f4f; /*（△）カラー変更はこちら*/
+		text-align: left; /*テキストの位置変更はこちら*/
+		border-radius: 15px; /*枠の丸みの設定はこちら*/
+		height: fit-content;
+		max-width: 50%;
+		word-break: break-all;
+		margin-left: 5px;
+		}
+		.right .chatting-color::after {
+		content: "";
+		border: 15px solid transparent;
+		border-top-color: #2f4f4f; /*（△）とカラーを合わせる*/
+		position: absolute;
+		top: 15px; /*三角部分の高さ*/
+		right: -15px; /*三角部分の位置*/
+		}
+		/* アイコンの作成 */
+		.balloon-color figure img {
+		border-radius: 100px; /* 画像を丸くしたいときに利用 */
+		margin: 0;
+		}
+		/* アイコンの大きさ */
+		.icon-color {
+		width: 60px;
+		height: fit-content;
+		}
+		/* アイコンの名前 */
+		.name-color {
+		width: 50px; /* アイコンの大きさと合わせる */
+		font-size: 12px;
+		text-align: center; /* 名前は真ん中に */
+		}
+		.text-color {
+		color: #fff; /* テキストのカラー変更はこちら*/
+		font-size: 16px; /*テキストサイズの変更はこちら（なければデフォルトのサイズになります）*/
+		margin: 0;
+		}
+	.cp_iptxt {
+	position: relative;
+	width: 80%;
+	margin: 20px 3%;
+	margin-right: 0;
+	text-align: left;
+	flex-grow: 0.5;
+}
+.cp_iptxt input[type='text'] {
+	font: 15px/24px sans-serif;
+	box-sizing: border-box;
+	width: 100%;
+	letter-spacing: 0.3px;
+}
+.cp_iptxt input[type='text']:focus {
+	outline: none;
+}
+.ef {
+	padding: 4px 0;
+	border: 0;
+	border-bottom: 3px solid #d3d3d3;
+	background-color: transparent;
+}
+.ef ~ .focus_line {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 0;
+	height: 3px; /* underline の太さ*/
+	transition: 0.4s;
+	background-color: #3aabd2; /* underlineの色 */
+}
+.ef:focus ~ .focus_line,
+.cp_iptxt.ef ~ .focus_line {
+	width: 100%;
+	transition: 0.4s;
+}
+.ef ~ label {
+	position: absolute;
+	z-index: -1;
+	top: 4px;
+	left: 0;
+	width: 100%;
+	transition: 0.3s;
+	color: #aaaaaa;
+}
+.submit{
+	background: none;
+	border: none;
+	margin: 0 3px;
+	flex-grow: 0.5;
+}
+.form-text{
+	display: flex;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+.log-message{
+	margin: 10px;
+}
+.log{
+	overflow: scroll;
+	height: 70vh;
+	text-align: left;
+	padding: 20px;
+}
+.chat-area{
+	width: 50%;
+	text-align: center;
+	height: 90vh;
+	position: absolute;
+	bottom: 0;
+	right: 3%;
+	background-color: #fffaf0;
+	border-left: solid lightgray  1px;
+}
+.hedder{
+	padding: 20px 10px;
+	background-color: #3aabd2;
+	color: white;
+}
+.hedder-title {
+	margin: 0;
+	user-select:none;
+}
+.chat-sys{
+	width: 100%;
+}
+header{
+	width: 100vw;
+	background-color: #007bbb;
+	height: 10vh;
+}
+body{
+	background-color: white;
+	font-family: sans-serif;
+}
+.topicon{
+	border-radius: 100px;
+	margin: 10px;
+	margin-right: 0;
+}
+.user{
+	display: flex;
+	position: absolute;
+	right: 20px;
+	top: 0;
+}
+.user-name{
+	margin: 0;
+	color: white;
+  }
+  .dropdown{
+  	margin: auto 10px;
+	height: fit-content;
+	display:flex;
+	width: 10%;
+  }
+  .dropdown-toggle{
+  display: flex;
+  }
+  .dropdown-toggle::after{
+  margin: auto;
+  margin-right: 10px;
+  color: white;
+  text-decoration: none;
+  }
+  .home{
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+  }
+  .title{
+  margin: auto;
+  color: white;
+  	}
+	.dropdown-menu{
+		background-color: #007bbb;
+	}
+	.dropdown-item{
+		color: white;
+	}
+	.timestanp{
+		display: flex;
+		align-items: flex-end;
+		color: gray;
+		font-size: 13px;
+	}
+	#log-get{
+		position: absolute;
+		margin-top: 20px;
+		z-index: 100;
+	}
+	.chat-select{
+		height: 90vh;
+		width: 22%;
+		overflow: scroll;
+		background-color: #fbfaf5;
+		text-align: center;
+	}
+	.chat-online1{
+		height: 90vh;
+		width: 22%;
+		border: solid lightgray 1px;
+		border-top: none;
+		border-bottom: none;
+		margin-left: 3%;
+		text-align: center;
+	}
+	.chat-online {
+		overflow: scroll;
+		height: 78vh;
+	}
+	.chat-function{
+		display: flex;
+	}
+	.chat-selecter{
+		text-align: left;
+		border: solid lightgray 1px;
+		border-left: none;
+		border-right: none;
+		border-top:none;
+		height: 70px;
+		width: 100%;
+		background-color: white;
+		cursor: pointer;
+		padding-left: 10px;
+		transition: all 0.25s 0s;
+		user-select: none;
+	}
+	.chat-selecter:hover{
+		background-color: #f3f3f3;
+	}
+	.chat-selecter:active{
+		background-color: #cccccc;
+	}
+	.active{
+		background-color: #a2d7dd;
+		color: white;
+	}
+	.active:hover{
+		background-color: #95c6cc;
+	}
+	.active:active{
+		background-color: #7ac2cc;
+	}
+	.title-rooms{
+		height: 50px;
+		text-align: center;
+		border-bottom: solid 1px lightgray;
+	}
+	.title-rooms h3{
+		line-height: 50px;
+		color: gray;
+		user-select: none;
+	}
+	.chat-online1 h3 {
+	 	margin: 0;
+		line-height: 50px;
+		color: gray;
+		user-select: none;
+		border-bottom: solid lightgray 1px;
+		height: 12vh;
+		line-height: 12vh;
+	}
+	.message-about{
+		color: gray;
+	}
+	.room-name{
+		margin-bottom: 0;
+		padding-top: 10px;
+	}
+	.fsize{
+  font-size: 24px;
+  text-align: center;
+  cursor: default;
+  user-select: none;
+}
+
+.container {
+z-index: 10000;
+ position: absolute;
+  width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 40px
+}
+
+button[type="button"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #3aabd2;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="button"]:hover {
+  background-color: #2b7d99;
+}
+.btn-check:checked+.btn, .btn.active, .btn.show, .btn:first-child:active, :not(.btn-check)+.btn:active {
+  background-color: #1d5466;
+  border-color: #1d5466;
+}
+.btn-success{
+	--bs-btn-disabled-border-color:#7dbcd1;
+	--bs-btn-disabled-bg:#7dbcd1;
+	--bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(122,184,204, .5);
+	--bs-btn-hover-bg: #2b7d99;
+	--bs-btn-hover-border-color: #99e6ff;
+}
+.danger{
+	font-size: 14px;
+	color: #c9171e;
+	margin-left: 10px;
+}
+.dropdown-item.disabled, .dropdown-item:disabled {
+	color: white;
+}
+.create-text{
+	display: flex;
+}
+.create-button{
+	color: blue;
+	cursor: pointer;
+}
+
+.create-button:hover{
+	text-decoration: underline dodgerblue;
+	color: dodgerblue;
+}
+.login-text{
+	display: flex;
+}
+.login-button{
+	color: blue;
+	cursor: pointer;
+}
+
+.login-button:hover{
+	text-decoration: underline dodgerblue;
+	color: dodgerblue;
+}
+.dropdown-toggle{
+	text-decoration: none;
+}
+.room-loading {
+	margin: 10px 0;
+}
+.first-your-message{
+	color: #bf794e;
+}
+.chat-selecter{
+	display: flex;
+}
+.notice{
+	margin: 0 auto;
+	margin-right: 15px;
+	line-height: 60px;
+}
+.wave{
+position:relative;
+height:300px;/*何も表示されない場合は各波の親要素に高さを持たせましょう。*/
+}
+canvas{
+position: absolute;
+bottom: 0;
+left:0;
+width: 100%;
+}
+.fa-eye:before{
+	display:flex;
+	align-items: center;
+	height: 40px;
+	padding: 5px;
+}
+.fa-eye-slash:before{
+	display:flex;
+	align-items: center;
+	height: 40px;
+	padding: 5px;
+}
+.pass {
+	display:flex;
+}
+.user-box p{
+	margin: 0px;
+	width: 50%;
+	line-height: 39px;
+}
+.user-box {
+	height: 60px;
+	display: flex;
+	border: solid 1px lightgray;
+	border-radius: 10px;
+	margin: 10px;
+	padding: 10px;
+	user-select: none;
+}
+.on_offline{
+	line-height: 60px;
+	display: flex;
+	align-items: center;
+}
+.online-txt{
+	color: #316745;
+}
+.online-color {
+background-color: #a8c97f;
+}
+.offline-color {
+	background-color: #e5e4e6;
+	color: gray;
+}
+.user-loading {
+	margin-top: 10px;
+}
+canvas {
+z-index: -1000;
+}
+.imageup {
+	z-index: 100000;
+	height: 50vh;
+	display:flex;
+	align-items: center;
+	padding-left: 9%;
+	hegiht: 90%;
+}
+.careful-text{
+	font-size: 12px;
+	color: red;
+	position: absolute;
+	right: 7px;
+	bottom: 7px;
+	margin: 0;
+}
+.pure-text {
+	margin: 0;
+	height: 90%;
+	display:flex;
+	align-items: center;
+	border-radius: 10px;
+	border: solid black 1px;
+
+}
+	.image-box {	
+	width: 60%;
+	}
+	</style>
+  </head>
+  <body>
+  <div class = "icon-info" style = ""></div>
+  <div class = "container image-box" style = "display:none;">
+  <div class = "imageup">
+    <input type="file" id="file">
+	 <div class = "pure-box">
+	 <img src="" alt="代替えテキスト" width= "100px" height="100px" class = "topicon pure" style = "display:none">
+	 <p  class = "pure-text">プレビューが表示されます</p>
+	 <div class="spinner-border text-primary icon-loading" role="status" style = "display:none;"></div>
+	 <p class = "careful-text">正方形の画像でないと、正しく表示されません。</p>
+	 </div>
+	 </div>
+	 <button class = "exit btn btn-outline-info">閉じる</button>
+	 </div>
+   <div class="container">
+      <form>
+        <p class="fsize">Login</p>
+        <input type="text" name="account" class = "login login-user" placeholder="Username" />
+		  <div class = "pass">
+        <input type="password" required name="password" class = "login login-pass" id = "log-pass" placeholder="Password" />
+		  <span id="buttonEye" class="fa fa-eye" onclick="pushHideButton()"></span>
+		  </div>
+        <input style = "display:none;" class = "login decide-login-pass" type="password" placeholder="パスワード確認用" />
+		  <p class = "danger" style = "display: none;">ユーザー名かパスワードが違っています</p>
+        <button type="button" class = "btn btn-success user-login-button">ログイン</button>
+		  <button type="button" class = "btn btn-success user-create-button" style = "display:none;">作る</button>
+		  <div class = "create-text">アカウントをお持ちでない方は<div class = "create-button">こちら</div></div>
+		  <div class = "login-text" style = "display:none;">アカウントをお持ちの方は<div class = "login-button">ログイン</div></div>
+      </form>
+    </div>
+	 <canvas id="waveCanvas">
+	 </canvas>
+	 <div class = "sys-cor" style = "display:none;">
+  <header>
+  <p class = "load-num" style = "display: none;">0</p>
+  <p class = "load-ok" style = "display: none;">0</p>
+  <div class = "user">
+  	<img src="../images/icon1.jpg" alt="代替えテキスト" width= "40px" height="40px" class = "topicon">
+  	<div class="dropdown">
+  <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <p class = "user-name">none</p>
+  </a>
+
+  <ul class="dropdown-menu">
+  	 <li class = "userid"><button class="dropdown-item userid-item" disabled></button></li>
+    <li><a class="dropdown-item" href="#">ホーム</a></li>
+    <li><a class="dropdown-item" href="#">ユーザー</a></li>
+    <li><a class="dropdown-item setting" href="#">設定</a></li>
+  </ul>
+</div>
+  </div>
+  </header>
+  <div class = "chat-function">
+  <div class = "chat-online1">
+	  	<h3>Users</h3>
+		<div class = "chat-online">
+	  	<div class="spinner-border text-primary user-loading" role="status" style = "display:none;"></div>
+		</div>
+  </div>
+  <div class = "chat-select">
+	  <div class = "title-rooms">
+	  	<h3>Your Rooms</h3>
+	  </div>
+	  	<div class="spinner-border text-primary room-loading" role="status" style = "display:none;">
+		</div>
+  </div>
+  </div>
+  <div class = "chat-area">
+  <div class = "hedder">
+  	<h3 class = "hedder-title">Chat Room</h3>
+  </div>
+  <div class = "chat-sys">
+  		<div class="spinner-border text-primary" role="status" style= "display:none" id = "log-get">
+  		<span class="visually-hidden">Loading...</span>
+	</div>
+	<div class = "log">
+		<p class = "first-your-message">表示したいチャットルームを選んでください</p>
+	</div>
+  <div class = "form-text" style = "display:none;">
+  <div class = "dis" style = "display: none">1</div>
+  		<div class="cp_iptxt">
+			<input class="ef" type="text" placeholder="メッセージを入力...">
+			<label class = "ef-label">Type something and send something!</label>
+			<span class="focus_line"></span>
+		</div>
+		<button class = "submit"><img src="../images/no-submit.svg" width = "32px" height = "32px" class = "submit"></button>
+	</div>
+	</div>
+	</div>
+	<script>
+	$(".setting").click(function(){
+		$(".image-box").show(100)
+		})
+	$(".exit").click(function() {
+		$(".image-box").hide(100)
+	})
+        $(function(){
+		  	var username = $(".user-name").text()
+            var url = "https://script.google.com/macros/s/AKfycbzGcuXdxGvVyOsySnIfm-Gpu5FugBcxQexYYjPac4tprzdsZ1JPoZ_tCnJGPJLBA8hs/exec"
+            var params = {
+                filename: username,
+                imageformat: 'PNG'
+            };
+			$('#file').on("change", function() {
+			$(".icon-loading").show()
+						 $(".pure-text").hide()
+                var file = this.files[0];
+                var fr = new FileReader();
+                fr.onload = function(e) {
+                    params.file = e.target.result.replace(/^.*,/, '');
+					  const postparams = {
+					  	method : "POST",
+						body : JSON.stringify({
+						"method": "icon_up",
+						"files": params,
+						"Userid": $(".userid-item").text().slice(8)
+						}),
+						followAllRedirects : true
+						};
+					  fetch(url, postparams)
+					    .then(response => response.json())
+					    .then(data => {
+						 $(".pure").show()
+						 $(".icon-loading").hide()
+						 $(".topicon").attr("src",data["icon_url"])
+						 })
+                }
+					 fr.readAsDataURL(file);
+            });
+        });
+	 
+	 $(function system(){
+	 	function escapeHtml (string) {
+		  if (typeof string !== 'string') {
+		    return string;
+		  }
+		  return string.replace(/[&'`"<>]/g, function (match) {
+		    return {
+		      '&': '&amp;',
+		      "'": '&#x27;',
+		      '`': '&#x60;',
+		      '"': '&quot;',
+		      '<': '&lt;',
+		      '>': '&gt;'
+		    }[match];
+		  });
+		}
+		$(".create-button").click(function() {
+			$(".fsize").text("Create")
+			$(".user-login-button").hide()
+			$(".user-create-button").show()
+			$(".create-text").hide()
+			$(".decide-login-pass").show()
+			$(".login-text").show()
+		})
+		$(".login-button").click(function() {
+			$(".fsize").text("Login")
+			$(".user-create-button").hide()
+			$(".user-login-button").show()
+			$(".login-text").hide()
+			$(".decide-login-pass").hide()
+			$(".create-text").show()
+		})
+		//3秒毎に取得
+	 setInterval(function(){
+	 var ok = $(".load-ok").text()
+	 if(ok == "1"){
+		controller = new AbortController();  // リクエスト中断用のAbortController
+  		signal = controller.signal;
+		var room = $(".active").data("id")
+	 var userid = $(".userid-item").text().slice(8)
+	 	const url = `https://script.google.com/macros/s/AKfycbzGcuXdxGvVyOsySnIfm-Gpu5FugBcxQexYYjPac4tprzdsZ1JPoZ_tCnJGPJLBA8hs/exec?log-get=false&room=${room}`;
+	  	const params = {
+	  		method : "POST",
+			body : JSON.stringify({
+				method: "log_get",
+				"Userid": userid,
+				"log-get": "false",
+				"room": room
+			}),
+			"signal": signal,
+			followAllRedirects : true
+		};
+  		fetch(url,params)
+    .then(response => response.json())
+    .then(data => {
+	 var decidenum = data["logs"]["logs"].length - 1
+	 var decide = data["logs"]["logs"][decidenum][2]
+	 var last_message = data["Rooms_last_message"]
+	 for(var num = 0;num < last_message.length;num++){
+	 var last = last_message[num][2]
+		 if (last.length > 14) {
+		 	var about_message = last.substr(0,12) + "..."
+		 }else{
+		 	var about_message = last
+		 }
+	 	$(`#selecter${num}`).children().children(".message-about").text(about_message)
+	 }
+	 var last_message = $(".balloon-color").last().children(".chatting-color").children().text()
+	 if(last_message != decide){
+	 $(".balloon-color").remove()
+	 if (data["logs"]["logs"]){
+	 	var logs = data["logs"]["logs"]
+		for(var value of logs){
+			var timestanp = new Date(value[0])
+			var hour = ("00" + timestanp.getHours()).slice(-2)
+			var minutes = ("00" + timestanp.getMinutes()).slice(-2)
+			var time = `${hour}:${minutes}`
+			var data_message = value[2]
+			var myUserName = $(".user-name").text()
+			if (value[1] == myUserName){
+				var left_OR_right = "right"
+			}else{
+				var left_OR_right = "left"
+			}
+			var icon_info = JSON.parse(localStorage.getItem("icon_info"))
+			icon_info = icon_info
+			var icon = icon_info[value[1]]
+			var message_string = escapeHtml(data_message)
+			$(".log").append(`<div class="balloon-color ${left_OR_right}">
+  <figure class="icon-color"><img src="${icon}" alt="代替えテキスト" width= "50px" height="50px">
+    <figcaption class="name-color">${value[1]}</figcaption>
+  </figure>
+  <div class="chatting-color">
+    <p class="text-color">${message_string}</p>
+  </div>
+  <p class = "timestanp">${time}</p>
+</div>`)
+		}
+	 }
+	 }
+	 
+			 $(".user-box").remove();
+			 for (var onlinevalues of data["On_Offline"]){
+			 	var username = onlinevalues[0]
+				var line = onlinevalues[1]
+				if (line == true) {
+					var html = '<span class="badge rounded-pill text-bg-success online">Online</span>'
+					username = `<strong class = "online-txt">${username}</strong>`
+					var online = "online-color"
+				}else if (line == false){
+					var html = '<span class="badge rounded-pill text-bg-secondary offline">Offline</span>'
+					var online = "offline-color"
+				}
+				$(".chat-online").append(`
+				<div class = "user-box ${online}">
+					<p>${username}</p>
+					<div class = "on_offline">
+					${html}
+					</div>
+				</div>
+				`)
+			 }
+	 })
+	 }
+	 },3000)
+	 //login処理
+	 $(".user-login-button").on("click",function() {
+	 var username = $(".login-user").val()
+	 var userpass = $(".login-pass").val()
+	 $(".danger").hide()
+	 $('.user-login-button').prop('disabled', true);
+	 $(".user-login-button").text("島に向かっています...")
+	 if (username && userpass){
+	 	const url = "https://script.google.com/macros/s/AKfycbzGcuXdxGvVyOsySnIfm-Gpu5FugBcxQexYYjPac4tprzdsZ1JPoZ_tCnJGPJLBA8hs/exec";
+	  	const params = {
+	  		method : "POST",
+			body : JSON.stringify({
+				method: "login",
+				Username: username,
+				Userpass: userpass
+				
+			}),
+			followAllRedirects : true
+		};
+		fetch(url, params)
+		   .then(response => response.json())
+		   .then(data => {
+				var login_info = data["login_info"]
+				if (login_info != "false"){
+				$(".user-name").text(login_info["Username"])
+				$(".userid-item").text("UserID: " + login_info["Userid"])
+					$(".container").hide(200)
+					$("#waveCanvas").hide()
+					$(".sys-cor").show()
+					$(".topicon").attr("src",login_info["Usericon"])
+					localStorage.setItem("icon_info",JSON.stringify(data["icons_info"]))
+					Lord_Room()
+				}else{
+					$('.user-login-button').prop('disabled', false);
+	 				$(".user-login-button").text("ログイン")
+			$(".danger").text("ユーザー名、またはパスワードが間違っています")
+			$(".danger").show()
+				}
+			})
+	 	}else{
+			$('.user-login-button').prop('disabled', false);
+	 		$(".user-login-button").text("ログイン")
+			$(".danger").text("ユーザー名とパスワードを入力してください")
+			$(".danger").show()
+		}
+	 })
+
+	 
+	 //ユーザー作成処理
+	 $(".user-create-button").on("click",function() {
+	 var username = $(".login-user").val()
+	 var userpass = $(".login-pass").val()
+	 var decideuserpass = $(".decide-login-pass").val()
+	 $(".danger").hide()
+	 $('.user-create-button').prop('disabled', true);
+	 if (username && userpass && decideuserpass){
+	 	if(userpass === decideuserpass){
+	 	const url = "https://script.google.com/macros/s/AKfycbzGcuXdxGvVyOsySnIfm-Gpu5FugBcxQexYYjPac4tprzdsZ1JPoZ_tCnJGPJLBA8hs/exec";
+	  	const params = {
+	  		method : "POST",
+			body : JSON.stringify({
+				method: "create",
+				Username: username,
+				Userpass: userpass
+				
+			}),
+			followAllRedirects : true
+		};
+		fetch(url, params)
+		   .then(response => response.json())
+		   .then(data => {
+				var login_info = data["login_info"]
+				if (login_info != "false"){
+				$(".user-name").text(login_info["Username"])
+				$(".userid-item").text("UserID: " + login_info["Userid"])
+					$(".container").hide(200)
+					$("#waveCanvas").hide()
+					$(".sys-cor").show()
+					Lord_Room()
+					online()
+				}else{
+					$('.user-create-button').prop('disabled', false);
+			$(".danger").text("ユーザー名、またはパスワードが間違っています")
+			$(".danger").show()
+				}
+			})
+			}else{
+				$('.user-create-button').prop('disabled', false);
+				$(".danger").text("パスワードと確認用パスワードが一致しません")
+				$(".danger").show()
+			}
+	 	}else{
+			$('.user-create-button').prop('disabled', false);
+			$(".danger").text("ユーザー名とパスワード（2回）を入力してください")
+			$(".danger").show()
+		}
+	 })
+	 //最初のroom読み込み
+	 function Lord_Room(){
+	 online()
+	 $(".room-loading").show()
+	 $(".user-loading").show()
+	 var userid = $(".userid-item").text().slice(8)
+	 	const url = "https://script.google.com/macros/s/AKfycbzGcuXdxGvVyOsySnIfm-Gpu5FugBcxQexYYjPac4tprzdsZ1JPoZ_tCnJGPJLBA8hs/exec";
+	  	const params = {
+	  		method : "POST",
+			body : JSON.stringify({
+				method: "room_get",
+				"Userid": userid
+			}),
+			followAllRedirects : true
+		};
+		fetch(url, params)
+		   .then(response => response.json())
+		   .then(data => {
+			$(".room-loading").hide()
+			var i = 0;
+			for (var value of data["Rooms"]){
+				$(".chat-select").append(`
+  					<div class = "chat-selecter" data-id = "${value}" id = "selecter${i}">
+						<div class = "select-text" style =  "border:none;">
+							<h4 class = "room-name" style = "border: none;">${value}</h4>
+							<p style = "border:none;" class = "message-about">最新の返信が表示されます</p>
+						</div>
+						<div class = "notice">
+						</div>
+					</div>`)
+					i++;
+					}
+		
+	 
+			 $(".user-loading").hide();
+			 for (var onlinevalues of data["On_Offline"]){
+			 	var username = onlinevalues[0]
+				var line = onlinevalues[1]
+				if (line == true) {
+					var html = '<span class="badge rounded-pill text-bg-success online">Online</span>'
+					username = `<strong class = "online-txt">${username}</strong>`
+					var online = "online-color"
+				}else if (line == false){
+					var html = '<span class="badge rounded-pill text-bg-secondary offline">Offline</span>'
+					var online = "offline-color"
+				}
+				$(".chat-online").append(`
+				<div class = "user-box ${online}">
+					<p>${username}</p>
+					<div class = "on_offline">
+					${html}
+					</div>
+				</div>
+				`)
+			 }
+			 var last_message = data["Rooms_last_message"]
+			 for(var num = 0;num < last_message.length;num++){
+			 var last = last_message[num][2]
+				 if (last.length > 14) {
+				 	var about_message = last.substr(0,12) + "..."
+				 }else{
+				 	var about_message = last
+				 }
+			 	$(`#selecter${num}`).children().children(".message-about").text(about_message)
+			 }
+			 
+			})
+	 }
+	 //最初の読み込み時のログ読み込み
+	 function Lord() {
+	 	$(".submit").prop('disabled',true)
+	 $(function getLogs(){
+		var room = $(".active").data("id")
+	 var userid = $(".userid-item").text().slice(8)
+		controller = new AbortController();  // リクエスト中断用のAbortController
+  		signal = controller.signal;
+	 	const url = `https://script.google.com/macros/s/AKfycbzGcuXdxGvVyOsySnIfm-Gpu5FugBcxQexYYjPac4tprzdsZ1JPoZ_tCnJGPJLBA8hs/exec?log-get=false&room=${room}`;
+	  	const params = {
+	  		method : "POST",
+			body : JSON.stringify({
+				method: "log_get",
+				"Userid": userid,
+				"log-get": "false",
+				"room": room
+			}),
+			"signal": signal,
+			followAllRedirects : true
+		};
+  		fetch(url,params)
+    .then(response => response.json())
+    .then(data => {
+	 $(".form-text").show()
+	 if (data["logs"]["logs"]){
+	 	var logs = data["logs"]["logs"]
+		for(var value of logs){
+			var timestanp = new Date(value[0])
+			var hour = ("00" + timestanp.getHours()).slice(-2)
+			var minutes = ("00" + timestanp.getMinutes()).slice(-2)
+			var time = `${hour}:${minutes}`
+			var data_message = value[2]
+			var myUserName = $(".user-name").text()
+			if (value[1] == myUserName){
+				var left_OR_right = "right"
+			}else{
+				var left_OR_right = "left"
+			}
+			var icon_info = JSON.parse(localStorage.getItem("icon_info"))
+			icon_info = icon_info
+			var icon = icon_info[value[1]]
+			var message_string = escapeHtml(data_message)
+			$(".log").append(`<div class="balloon-color ${left_OR_right}">
+  <figure class="icon-color"><img src="${icon}" alt="代替えテキスト" width= "50px" height="50px">
+    <figcaption class="name-color">${value[1]}</figcaption>
+  </figure>
+  <div class="chatting-color">
+    <p class="text-color">${message_string}</p>
+  </div>
+  <p class = "timestanp">${time}</p>
+</div>`)
+		}
+	 $('.log').scrollTop($('.log')[0].scrollHeight);
+	 var decidenum = data["logs"]["logs"].length - 1
+	 var decide = data["logs"]["logs"][decidenum][2]
+	 var last_message = data["Rooms_last_message"]
+	 for(var num = 0;num < last_message.length;num++){
+	 var last = last_message[num][2]
+		 if (last.length > 14) {
+		 	var about_message = last.substr(0,12) + "..."
+		 }else{
+		 	var about_message = last
+		 }
+	 	$(`#selecter${num}`).children().children(".message-about").text(about_message)
+	 }
+	 }
+	 })
+	 })
+	 //送信ボタンを押したときの処理
+	 $(function sys(){
+	 $(".submit").on("click",function(){
+	 var jud = $(".dis").text()
+	 if (jud == "0") {
+	 $(".ef").focus()
+	 var submit = $(".submit").attr("src")
+	 var text = $(".ef").val()
+	 var user = $(".userid-item").text().slice(8)
+	 $(".ef").val("")
+	 $(".dis").text("1")
+		$(".ef-label").show()
+		$(".submit").attr("src","../images/no-submit.svg")
+		$(".submit").prop('disabled',true)
+		var room = $(".active").data("id")
+		fetch('https://ipinfo.io?callback')
+  .then(res => res.json())
+  .then(json => {
+  const url = "https://script.google.com/macros/s/AKfycbzGcuXdxGvVyOsySnIfm-Gpu5FugBcxQexYYjPac4tprzdsZ1JPoZ_tCnJGPJLBA8hs/exec";
+  const params = {
+  	method : "POST",
+	body : JSON.stringify({
+	Userid: user,
+	message : text,
+	method: "log_post",
+	"room": room,
+	"ip": json.ip
+	}),
+	followAllRedirects : true
+	};
+  fetch(url, params)
+    .then(response => response.json())
+    .then(data => {
+	 var data_message = data["message"]["message"]["message"]
+	 var user = data["message"]["message"]["user"]
+	 var value = data["message"]["message"]["time"]
+			var timestanp = new Date(value)
+			var hour = ("00" + timestanp.getHours()).slice(-2)
+			var minutes = ("00" + timestanp.getMinutes()).slice(-2)
+			var time = `${hour}:${minutes}`
+			var message_string = escapeHtml(data_message)
+			
+			var icon_info = JSON.parse(localStorage.getItem("icon_info"))
+			icon_info = icon_info
+			var icon = icon_info[user]
+	 $(".log").append(`<div class="balloon-color right">
+  <figure class="icon-color"><img src="${icon}" alt="代替えテキスト" width= "50px" height="50px">
+    <figcaption class="name-color">${user}</figcaption>
+  </figure>
+  <div class="chatting-color">
+    <p class="text-color">${message_string}</p>
+  </div>
+  <p class = "timestanp">${time}</p>
+</div>`)
+	 $('.log').scrollTop($('.log')[0].scrollHeight);
+	 });
+	 //koko
+	 })
+	 }
+	 })
+	 })
+	 //エンターキーが押されたときの処理
+	 $(".ef").on("keydown",function(e){
+	 if(e.key == "Enter" && $(".ef").val() != "") {
+	 var text = $(".ef").val()
+	 var user = $(".userid-item").text().slice(8)
+	 $(".ef").focus()
+	 $(".ef").val("")
+	 	$(".ef-label").show()
+		$(".ef-label").show()
+		$(".submit").attr("src","../images/no-submit.svg")
+		$(".submit").prop('disabled',true)
+		var room = $(".active").data("id")
+		fetch('https://ipinfo.io?callback')
+  .then(res => res.json())
+  .then(json => {
+  const url = "https://script.google.com/macros/s/AKfycbzGcuXdxGvVyOsySnIfm-Gpu5FugBcxQexYYjPac4tprzdsZ1JPoZ_tCnJGPJLBA8hs/exec";
+  const params = {
+  	method : "POST",
+	body : JSON.stringify({
+	Userid: user,
+	message : text,
+	method: "log_post",
+	"room": room,
+	"ip": json.ip
+	}),
+	followAllRedirects : true
+	};
+  fetch(url, params)
+    .then(response => response.json())
+    .then(data => {
+	 var data_message = data["message"]["message"]["message"]
+	 var user = data["message"]["message"]["user"]
+	 var value = data["message"]["message"]["time"]
+			var timestanp = new Date(value)
+			var hour = ("00" + timestanp.getHours()).slice(-2)
+			var minutes = ("00" + timestanp.getMinutes()).slice(-2)
+			var time = `${hour}:${minutes}`
+			var message_string = escapeHtml(data_message)
+			var icon_info = JSON.parse(localStorage.getItem("icon_info"))
+			icon_info = icon_info
+			var icon = icon_info[user]
+	 $(".log").append(`<div class="balloon-color right">
+  <figure class="icon-color"><img src="${icon}" alt="代替えテキスト" width= "50px" height="50px">
+    <figcaption class="name-color">${user}</figcaption>
+  </figure>
+  <div class="chatting-color">
+    <p class="text-color">${message_string}</p>
+  </div>
+  <p class = "timestanp">${time}</p>
+</div>`)
+	 $('.log').scrollTop($('.log')[0].scrollHeight);
+	 });
+	 })
+	 }
+	 })
+	 
+	 $(document).on('input', '.ef', function(e) {
+        var dis = $('.ef').val()
+		  if(dis != "") {
+		  	$(".ef-label").hide()
+			$(".submit").attr("src","../images/submit.svg")
+			$(".submit").prop('disabled',false)
+			$(".dis").text("0")
+		  }else{
+		  	$(".ef-label").show()
+			$(".submit").attr("src","../images/no-submit.svg")
+			$(".submit").prop('disabled',true)
+			$(".dis").text("1")
+		  }
+    });
+	 $(".from-text").click(function(){
+	 	$(".ef").focus()
+	 })
+	 }
+
+	 //過去のログ取得
+	 $(".log").scroll(function(e){
+	 	var scroll = $(".log").scrollTop()
+		if (scroll == 0){
+		$("#log-get").show()
+		var load = $(".load-num").text()
+		load ++;
+		var room = $(".active").data("id")
+			$(".load-num").text(load)
+	 var userid = $(".userid-item").text().slice(8)
+		controller = new AbortController();  // リクエスト中断用のAbortController
+  		signal = controller.signal;
+	 	const url = `https://script.google.com/macros/s/AKfycbzGcuXdxGvVyOsySnIfm-Gpu5FugBcxQexYYjPac4tprzdsZ1JPoZ_tCnJGPJLBA8hs/exec?log-get=false&room=${room}`;
+	  	const params = {
+	  		method : "POST",
+			body : JSON.stringify({
+				method: "log_get",
+				"Userid": userid,
+				"log-get": "true",
+				"room": room,
+				"load": load
+			}),
+			"signal": signal,
+			followAllRedirects : true
+		};
+  		fetch(url,params)
+    .then(response => response.json())
+    .then(data => {
+		var logs = data["logs"]["logs"]
+		if(logs != false){
+			var icon_info = JSON.parse(localStorage.getItem("icon_info"))
+			icon_info = icon_info
+		for (var i = logs.length; i > 0; i--){
+			var now_data = logs[i - 1]
+			var timestanp = new Date(now_data[0])
+			var hour = ("00" + timestanp.getHours()).slice(-2)
+			var minutes = ("00" + timestanp.getMinutes()).slice(-2)
+			var time = `${hour}:${minutes}`
+			var user = now_data[1]
+			var message_string = escapeHtml(now_data[2])
+			var myUserName = $(".user-name").text()
+			if (user == myUserName){
+				var left_OR_right = "right"
+			}else{
+				var left_OR_right = "left"
+			}
+			var icon = icon_info[user]
+			$(".log").prepend(`<div class="balloon-color ${left_OR_right}">
+  <figure class="icon-color"><img src="${icon}" alt="代替えテキスト" width= "50px" height="50px">
+    <figcaption class="name-color">${user}</figcaption>
+  </figure>
+  <div class="chatting-color">
+    <p class="text-color">${message_string}</p>
+  </div>
+  <p class = "timestanp">${time}</p>
+</div>`)
+		$("#log-get").hide()
+		}
+		}else{
+		$("#log-get").hide()
+		}
+	 })
+		}else{
+		$("#log-get").hide()
+		}
+	 })
+	 
+	 $(document).on("click",".chat-selecter",function(){
+	 	$(".first-your-message").hide()
+	 	$("#log-get").show()
+		$(".form-text").hide()
+	 	$(".balloon-color").remove()
+		$(".load-num").text(0)
+	 	$(".chat-selecter").removeClass("active")
+		$(this).addClass("active")
+		var room = $(this).data("id")
+		$(".hedder-title").text(room)
+		try{
+		controller.abort();
+		}catch(e){
+		}
+		Lord()
+		var ok = $(".load-ok").text(1)
+		$("#log-get").hide()
+	 })
+	 })
+	 var unit = 100,
+    canvasList, // キャンバスの配列
+    info = {}, // 全キャンバス共通の描画情報
+    colorList; // 各キャンバスの色情報
+
+/**
+ * Init function.
+ * 
+ * Initialize variables and begin the animation.
+ */
+function init() {
+    info.seconds = 0;
+    info.t = 0;
+		canvasList = [];
+    colorList = [];
+    // canvas1個めの色指定
+    canvasList.push(document.getElementById("waveCanvas"));
+    colorList.push(['#3aabd2', '#3aabd2', '#3aabd2']);//重ねる波の色設定
+	// 各キャンバスの初期化
+for(var canvasIndex in canvasList) {
+        var canvas = canvasList[canvasIndex];
+        canvas.width = document.documentElement.clientWidth; //Canvasのwidthをウィンドウの幅に合わせる
+        canvas.height = 600;//波の高さ
+        canvas.contextCache = canvas.getContext("2d");
+    }
+    // 共通の更新処理呼び出し
+		update();
+}
+
+function update() {
+		for(var canvasIndex in canvasList) {
+        var canvas = canvasList[canvasIndex];
+        // 各キャンバスの描画
+        draw(canvas, colorList[canvasIndex]);
+    }
+    // 共通の描画情報の更新
+    info.seconds = info.seconds + .014;
+    info.t = info.seconds*Math.PI;
+    // 自身の再起呼び出し
+    setTimeout(update, 35);
+}
+function draw(canvas, color) {
+		// 対象のcanvasのコンテキストを取得
+    var context = canvas.contextCache;
+    // キャンバスの描画をクリア
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    //波の重なりを描画 drawWave(canvas, color[数字（波の数を0から数えて指定）], 透過, 波の幅のzoom,波の開始位置の遅れ )
+    drawWave(canvas, color[0], 0.5, 4, 0);//0.5⇒透過具合50%、3⇒数字が大きいほど波がなだらか
+    drawWave(canvas, color[1], 0.4, 3, 250);
+    drawWave(canvas, color[2], 0.2, 1.9, 100);
+}
+
+/**
+* 波を描画
+* drawWave(色, 不透明度, 波の幅のzoom, 波の開始位置の遅れ)
+*/
+function drawWave(canvas, color, alpha, zoom, delay) {
+		var context = canvas.contextCache;
+    context.fillStyle = color;//塗りの色
+    context.globalAlpha = alpha;
+    context.beginPath(); //パスの開始
+    drawSine(canvas, info.t / 0.5, zoom, delay);
+    context.lineTo(canvas.width + 10, canvas.height); //パスをCanvasの右下へ
+    context.lineTo(0, canvas.height); //パスをCanvasの左下へ
+    context.closePath() //パスを閉じる
+    context.fill(); //波を塗りつぶす
+}
+
+/**
+ * Function to draw sine
+ * 
+ * The sine curve is drawn in 10px segments starting at the origin. 
+ * drawSine(時間, 波の幅のzoom, 波の開始位置の遅れ)
+ */
+function drawSine(canvas, t, zoom, delay) {
+    var xAxis = Math.floor(canvas.height/2);
+    var yAxis = 0;
+    var context = canvas.contextCache;
+    // Set the initial x and y, starting at 0,0 and translating to the origin on
+    // the canvas.
+    var x = t; //時間を横の位置とする
+    var y = Math.sin(x)/zoom;
+    context.moveTo(yAxis, unit*y+xAxis); //スタート位置にパスを置く
+
+    // Loop to draw segments (横幅の分、波を描画)
+    for (i = yAxis; i <= canvas.width + 10; i += 10) {
+        x = t+(-yAxis+i)/unit/zoom;
+        y = Math.sin(x - delay)/3;
+        context.lineTo(i, unit*y+xAxis);
+    }
+}
+
+init();
+function pushHideButton() {
+        var txtPass = document.getElementById("log-pass");
+        var btnEye = document.getElementById("buttonEye");
+        if (txtPass.type === "text") {
+          txtPass.type = "password";
+          btnEye.className = "fa fa-eye";
+        } else {
+          txtPass.type = "text";
+          btnEye.className = "fa fa-eye-slash";
+        }
+      }
+
+		$(window).on('unload', function() {
+	 			var json = $(".userid-item").text().slice(8)
+      const data = JSON.stringify({method: 'offline',Userid: json});
+      // or
+      // const data = new FormData();
+      // data.append('event', 'beacon-event');
+      navigator.sendBeacon('https://script.google.com/macros/s/AKfycbzGcuXdxGvVyOsySnIfm-Gpu5FugBcxQexYYjPac4tprzdsZ1JPoZ_tCnJGPJLBA8hs/exec', data);
+		});
+		function online() {
+		
+	 			var json = $(".userid-item").text().slice(8)
+      const data = JSON.stringify({method: 'online',Userid: json});
+      // or
+      // const data = new FormData();
+      // data.append('event', 'beacon-event');
+      navigator.sendBeacon('https://script.google.com/macros/s/AKfycbzGcuXdxGvVyOsySnIfm-Gpu5FugBcxQexYYjPac4tprzdsZ1JPoZ_tCnJGPJLBA8hs/exec', data);
+		}
+	 </script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+  </body>
+</html>
