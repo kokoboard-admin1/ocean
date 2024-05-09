@@ -611,6 +611,23 @@ z-index: -1000;
 	</div>
 	</div>
 	<script>
+		function fetchIPAddress(ipAddress) {
+  return new Promise((resolve, reject) => {
+    // ここにIPアドレスを使用した非同期処理を記述します
+    // 例: この場合、setTimeoutを使用して単純な非同期処理をシミュレートします
+    setTimeout(() => {
+      // ここで非同期処理が完了し、IPアドレスを解決したと仮定します
+      const resolvedIPAddress = ipAddress;
+      
+      // リクエストが成功した場合、resolve()を呼び出して結果を返します
+      resolve(resolvedIPAddress);
+      
+      // もしリクエストが失敗した場合、reject()を呼び出してエラーを返します
+      // reject(new Error('IPアドレスの取得に失敗しました'));
+    }, 1000); // 1000ミリ秒（1秒）後に処理を完了させるとします
+  });
+}
+
 	$(".setting").click(function(){
 		$(".image-box").show(100)
 		})
@@ -1025,7 +1042,7 @@ z-index: -1000;
 		$(".submit").attr("src","../images/no-submit.svg")
 		$(".submit").prop('disabled',true)
 		var room = $(".active").data("id")
-		fetch('https://ipinfo.io?callback')
+		fetchIPAddress("1.1.1.1")
   .then(res => res.json())
   .then(json => {
   const url = "https://script.google.com/macros/s/AKfycbxf7oqORlOMdsSFIOzh2y8jlQc2b3WMym7GjEI3SLjZ0C45qTb4FEnGMH5c4YVdDv63/exec";
@@ -1083,7 +1100,7 @@ z-index: -1000;
 		$(".submit").attr("src","../images/no-submit.svg")
 		$(".submit").prop('disabled',true)
 		var room = $(".active").data("id")
-		fetch('https://ipinfo.io?callback')
+		fetchIPAddress("1.1.1.1")
   .then(res => res.json())
   .then(json => {
   const url = "https://script.google.com/macros/s/AKfycbxf7oqORlOMdsSFIOzh2y8jlQc2b3WMym7GjEI3SLjZ0C45qTb4FEnGMH5c4YVdDv63/exec";
